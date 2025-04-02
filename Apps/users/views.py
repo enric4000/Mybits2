@@ -1,0 +1,11 @@
+from django.shortcuts import render
+from django.views import View
+from django.views.generic import View
+
+# Create your views here.
+
+class HomeView(View):
+    template_name = 'home.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'home.html')
