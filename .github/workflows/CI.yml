@@ -13,14 +13,6 @@ jobs:
   build_and_run:
     runs-on: ubuntu-latest
 
-    env:
-      # Definimos las variables de entorno aquí
-      DB_NAME: mybits2db
-      USER: mybits2admin
-      PASSWORD: x7v,85W*DOMB3fJT
-      HOST: db
-      PORT: 5432
-
     steps:
     - name: Set up Docker Compose
       run: |
@@ -48,12 +40,12 @@ jobs:
         docker-compose -f docker-compose.yml build
     - name: Build and run Django app in Docker container
       run: |
-        docker-compose -f docker-compose.yml up -d db
+        docker-compose -f docker-compose.yml --env-file ./Mybits2/.env up -d db
         sleep 5
-        docker-compose -f docker-compose.yml up -d web
+        docker-compose -f docker-compose.yml --env-file ./Mybits2/.env up -d web
         sleep 10
         
-        docker-compose -f docker-compose.yml up test
+        docker-compose -f docker-compose.yml --env-file ./Mybits2/.env up test
         docker-compose -f docker-compose.yml logs test
         
         EXIT_CODE=$(docker inspect --format='{{.State.ExitCode}}' $(docker-compose -f docker-compose.yml ps -q test))
