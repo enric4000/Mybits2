@@ -24,7 +24,7 @@ if [ "$1" == "run" ]; then
     =============================
     Deploying web container
     ============================="
-    sudo docker compose --env-file ./Mybits2/.env up -d web
+    sudo docker compose --env-file ./Mybits2/.env up web
 
 
 # Si el parámetro es "db", levanta solo la base de datos y ejecuta psql
