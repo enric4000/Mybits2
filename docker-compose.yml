@@ -15,8 +15,8 @@ services:
   web:
     build: .
     ports:
-      - "0.0.0.0:8080:8080"
-    command: bash -c "python manage.py migrate && gunicorn --bind 0.0.0.0:8000 --workers 3 Mybits2.wsgi:application"
+      - "0.0.0.0:8000:8000"
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - db
     environment:
