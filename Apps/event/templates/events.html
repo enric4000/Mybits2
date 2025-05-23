@@ -1,0 +1,23 @@
+{% extends 'home.html' %}
+
+{% block subtitle %} Events page{%endblock%}
+
+{% block content %}
+<div class="container-panel">
+    <h1 class="container-panel-header">Events</h1>
+    <br>
+    <form action="" method="get" class="form" id="updateForm">
+        <class class="from-label">Enter a name or appName to search for</class>
+        <input class="form-input" type="text" id="search" name="search" placeholder="Example: HackUPC myHackUPC" />
+        <button class="button" type="submit">Search</button>
+    </form>
+    <br>
+    <div><a class="button-green" href="/event/create/">Create one!</a></div>
+    <br>
+    {% for event in events%}
+        <div class="list-item" id="event {{event.id}}">
+            <a class="list-item-text" href="/event/{{event.id}}/">{{event.name}} <a class="list-item-text-little">{{event.description}}</a></a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
