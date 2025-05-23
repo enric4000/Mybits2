@@ -1,0 +1,48 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+    {% include "head.html" %}
+    <body style="min-height: 100%">
+        <div class="background" style="display: flex; flex-direction: column; width: 100%;">
+            {% include "nav.html"%}
+            {% block container %}
+                <div>
+                    {% if tabs %}
+                        {% include 'components/tabs.html' %}
+                    {% endif %}
+                    {% block content %}
+                        {%if request.user.is_authenticated%}
+                            <div class="container-panel">
+                                <h1 class="container-panel-header">Welcome {{ request.user.first_name }} {{request.user.last_name}}</h1>
+                                <p class="container-panel-text">You are logged in.</p>
+                            </div>
+                        {% else %}
+                        <div class="container-panel">
+                            <h1 class="container-panel-header">Sign in</h1>
+                            <form action="" method="post" class="form" id="loginForm">
+                                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                                <div class="form-item required">
+                                    <label class="form-label" for="id_email">Email</label>
+                                    <input type="email" name="email" maxlength="100" class="form-input" title="" required="" id="id_email">
+                                </div>
+                                <div class="form-item required">
+                                    <label class="form-label" for="id_password">Password</label>
+                                    <input type="password" name="password" maxlength="100" class="form-input" title="" required="" id="id_password">
+                                </div>
+                                <p><a class="link" href="{{ password_reset }}">Forgot your password?</a></p>
+                                <button class="button" type="submit">Log In</button>
+                                <a class="btn btn-block link" style="text-align: center;" href="/user/signup/">Sign up</a>
+                            </form>
+                        </div>
+                        {% endif %}
+                    {% endblock %}
+                </div>
+            {% endblock %}
+            {% block footer %}
+                {% include 'footer.html' %}
+            {% endblock %}
+        </div>
+        {% block scripts %}
+        {% endblock %}
+    </body>
+</html>

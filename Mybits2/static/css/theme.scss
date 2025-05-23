@@ -1,0 +1,138 @@
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import "./bootstrap/functions";
+
+// 2. Include any default variable overrides here
+
+// Picked colors from here: https://color.adobe.com/es/create/color-wheel
+
+$primary:       #0166cc;
+$secondary:     #666666;
+$success:       #4CE081;
+$info:          #21C2F8;
+$warning:       #ffc800;
+$danger:        #ff1b28;
+$light:         white;
+$dark:          black;
+
+// 3. Include remainder of required Bootstrap stylesheets
+@import "./bootstrap/variables";
+
+// 4. Include any default map overrides here
+
+$table-variants: (
+  "primary":    shift-color($primary, $table-bg-scale),
+  "secondary":  shift-color($secondary, $table-bg-scale),
+  "success":    shift-color($success, $table-bg-scale),
+  "info":       shift-color($info, $table-bg-scale),
+  "warning":    shift-color($warning, $table-bg-scale),
+  "danger":     shift-color($danger, $table-bg-scale),
+  "light":      darken($light, 5%),
+  "dark":       lighten($dark, 5%),
+);
+
+$pagination-bg: darken($light, 5%);
+
+
+@import './bootstrap/bootstrap';
+
+.bg-primary {
+    color: $dark;
+}
+
+.bg-secondary {
+    color: $white;
+}
+
+.bg-info {
+    color: $black;
+}
+
+.bg-danger {
+    color: $black;
+}
+
+.bg-warning {
+    color: $black;
+}
+
+.bg-success {
+    color: $black;
+}
+
+.bg-light {
+    color: $black;
+}
+
+.bg-dark {
+    color: $white;
+}
+
+.dark .btn-close {
+    filter: invert(1);
+}
+
+.dark .modal-backdrop {
+    --bs-backdrop-bg: rgb(75, 75, 75)
+}
+
+@media (min-width: map-get($grid-breakpoints, "md")) {
+    .ms-md-auto {
+        margin-left: auto !important;
+    }
+    .w-md-fc {
+        width: fit-content;
+    }
+}
+@media (max-width: map-get($grid-breakpoints, "lg")) {
+    .border-lg {
+        border: 0 !important;
+    }
+    #popup-scan > div {
+        height: 100%;
+    }
+}
+@media (max-width: map-get($grid-breakpoints, "xl")) {
+    .border-xl {
+        border: 0 !important;
+    }
+}
+
+.dark {
+    .pagination {
+        li > a {
+            background-color: lighten($dark, 5%);
+            border-color: lighten($dark, 30%);
+        }
+
+        .active > a {
+            background-color: $primary;
+            border-color: $primary;
+        }
+    }
+
+    .c3-axis-y text {
+        fill: #eeeeee;
+    }
+    .c3-axis-x text {
+        fill: #eeeeee;
+    }
+    .c3-legend-item {
+        fill: #eeeeee;
+    }
+    .c3 .c3-axis line, .c3 .c3-axis path {
+        stroke: #EEEEEE;
+    }
+    .c3-tooltip tr {
+        color: #222222;
+    }
+}
+
+::-moz-selection {
+    color: $white;
+    background: $primary;
+}
+
+::selection {
+    color: $white;
+    background: $primary;
+}

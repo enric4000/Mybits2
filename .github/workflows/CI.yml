@@ -1,0 +1,69 @@
+
+name: Django CI with Docker
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+env:
+  AWS_REGION: eu-north-1
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  PRIVATE_SSH_KEY: ${{ secrets.AWS_SSH_KEY }}
+  SERVER_PUBLIC_IP: ${{ secrets.AWS_PUBLIC_KEY }}
+
+jobs:
+  build_and_run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set up Docker Compose
+      run: |
+        # Instalar Docker Compose
+        sudo apt-get update
+        sudo apt-get install -y docker-compose
+        sudo apt-get install -y python3
+        
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Cache Docker layers
+      uses: actions/cache@v3
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-docker-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-docker-
+    - name: Build Docker images
+      run: |
+        docker-compose -f docker-compose.yml down --remove-orphans  # Limpia contenedores huérfanos
+        docker-compose -f docker-compose.yml build
+    - name: Build and run Django app in Docker container
+      run: |
+        docker-compose -f docker-compose.yml --env-file ./Mybits2/.env up -d db
+        sleep 5
+        docker-compose -f docker-compose.yml --env-file ./Mybits2/.env up -d web
+        sleep 10
+        
+        docker-compose -f docker-compose.yml --env-file ./Mybits2/.env up test
+        docker-compose -f docker-compose.yml logs test
+        
+        EXIT_CODE=$(docker inspect --format='{{.State.ExitCode}}' $(docker-compose -f docker-compose.yml ps -q test))
+        if [ "$EXIT_CODE" -ne 0 ]; then
+          echo "Tests failed! Exit code: $EXIT_CODE"; exit 1;
+        else
+          echo "Tests passed!"
+        fi
+        docker-compose down
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: ./coverage_reports/
