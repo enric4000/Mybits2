@@ -1,0 +1,32 @@
+{% extends 'home.html' %}
+
+{% block subtitle %} LogIn page{%endblock%}
+
+{% block content %}
+<div class="container-panel">
+    <h1 class="container-panel-header">Sign in</h1>
+    <br>
+    <form action="" method="post" class="form" id="loginForm">
+        {% if form.errors %}
+            <div>
+                {% for error in form.non_field_errors %}
+                    <p class="form-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        {% for item in form%}
+            <div class="form-item required">
+                {%if item.help_text%}
+                    <label class="form-label">{{item.help_text}}</label>
+                {%endif%}
+                <class class="from-label">{{ item.label_tag }}</class>
+                {{ item }}
+                {{ item.errors }}
+            </div>
+        {% endfor %}
+        <button class="button" type="submit">Log In</button>
+    </form>
+
+</div>
+{%endblock%}

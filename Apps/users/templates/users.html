@@ -1,0 +1,20 @@
+{% extends 'home.html' %}
+
+{% block subtitle %} Users page{%endblock%}
+
+{% block content %}
+<div class="container-panel">
+    <h1 class="container-panel-header">Users</h1>
+    <br>
+    <form action="" method="get" class="form" id="updateForm">
+        <class class="from-label">Enter a name or email to search for</class>
+        <input class="form-input" type="text" id="search" name="search" placeholder="John Doe" />
+        <button class="button" type="submit">Search</button>
+    </form>
+    {% for user in users%}
+        <div class="list-item" id="user {{user.id}}">
+            <a class="list-item-text" href="/user/{{user.id}}/profile">{{user.first_name}} {{user.last_name}} <a class="list-item-text-little">({{user.pronoun}})</a></a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
