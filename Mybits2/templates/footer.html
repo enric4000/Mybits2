@@ -1,0 +1,26 @@
+<!-- Footer -->
+{%load static%}
+<footer class="footer" id="footer">
+    <div class= "container">
+        <div class="row">
+            <div  style="text-align: left">
+                <p><a class="footer-text">Have a question? We're happy to help!</a> <a class="footer-text link" href="mailto:{{ organization_contact }}">{{ organization_contact }}</a></p>
+            </div>
+            <div class="col-lg-6">
+                <a target="_blank" title="{{ name }}" class="text-dark ms-1" href="{{ url }}" role="button"><i class="bi {{ icon }}"></i></a>
+            </div>
+        </div>
+        <section class="footer-text">
+            <p class="footer-text">
+                <small class="footer-text" >Made with <i class="fa fa-laptop" aria-hidden="true"></i> and <i class="fa fa-heart" aria-hidden="true"></i> by {{ organization }} </small>
+                {# OH NO YOU FOUND ME! This is just an internal joke that appeared at the first edition of HackUPC. #}
+                {# You can remove it, but if you dont care, please keep it. I'm a sentimental - Kike #}
+                <span style="display: none">BIENE {{ app_author }}</span>
+                <br><br><br>
+                <a target="_blank" class="footer-text link" href="/legal_notice/">Legal notice</a> |
+                <a target="_blank" class="footer-text link" href="/terms_and_conditions/">Terms and conditions</a> |
+                <a target="_blank" class="footer-text link" href="/privacy_and_cookies/">Privacy and cookies</a>
+            </p>
+        </section>
+    </div>
+</footer>

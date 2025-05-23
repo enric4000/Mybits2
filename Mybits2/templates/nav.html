@@ -1,0 +1,44 @@
+{% load static %}
+{% block nav %}
+<nav class="nav">
+    <div class="nav-container">
+        <div class="nav-general">
+            <a class="nav-logo" style="height: auto" href="{% url 'home' %}">
+                <img id="logo" alt="" height="44" src="{% static 'img/logo-dark.png' %}"/>
+            </a>
+    
+            <div class="nav-general">
+                <a class="nav-general-item" href="/user/">Users</a>
+            </div>
+
+            <div class="nav-general">
+                <a class="nav-general-item" href="/event/">Events</a>
+            </div>
+        </div>
+
+        <div id="navbarNav">
+            <ul class="nav-list">
+                {% if not request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a href="{{login}}" class="nav-user"><i class="bi bi-box-arrow-in-right nav-user-icon"></i> Log in</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{register}}" class="nav-user"><i class="bi bi-person-fill nav-user-icon"></i> Register</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item dropdown">
+                        <a href="#" id="navbarDropdownMenuLinkUser" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="nav-link">
+                            {{ request.user.email }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{profile}}"+{{request.user.email}} class="nav-link"><i class="bi bi-person-fill"></i> Profile</a></li>
+                            <li><hr class="divider mt-1 mb-1"></li>
+                            <li><a href="{{logout}}" class="nav-link"><i class="bi bi-box-arrow-right"></i> Log out</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}

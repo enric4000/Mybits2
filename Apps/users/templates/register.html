@@ -1,0 +1,70 @@
+{% extends 'home.html' %}
+
+{% block subtitle %} Register page{%endblock%}
+
+{% block content %}
+<div class="container-panel">
+    <h1 class="container-panel-header">Register</h1>
+    <br>
+    <form action="" method="post" class="form" id="registerForm">
+        {% if form.errors %}
+            <div>
+                {% for error in form.non_field_errors %}
+                    <p class="form-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+        {% for item in form%}
+            <div class="form-item required" id="form {{item.label}}">
+
+                {%if item.help_text%}
+                    <br>
+                    <label class="form-section">{{item.help_text}}</label>
+                    <br>
+                {%endif%}
+
+                <class class="from-label">{{ item.label_tag }}</class>
+                {{ item }}
+
+                {%if item.errors%}
+                    <label class="form-input-error">{{ item.errors }}</label>
+                {%endif%}
+                
+            </div>
+        {% endfor %}
+
+        <button class="button" type="submit">Register</button>
+    </form>
+
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Find every other field, and hides it until the user selects "OTHER" in the select field
+        const otherDivs = document.querySelectorAll('div[id^="form "][id$="(other)"]');
+    
+        otherDivs.forEach(function (div) {
+            const fieldName = div.id.slice(0, -8);
+            const baseFieldId = document.getElementById(fieldName).querySelector("select");
+                ;
+            console.log(fieldName);
+            console.log(baseFieldId);
+            if (!baseFieldId) return;
+            div.style.display = "none";
+
+            function toggleVisibility() {
+                if (baseFieldId.value === "OTHER") {
+                    div.style.display = "flex";
+                } else {
+                    div.style.display = "none";
+                    div.querySelector("input").value = "";
+                }
+            }
+            baseFieldId.addEventListener("change", toggleVisibility);
+            toggleVisibility();
+        });
+    });
+</script>
+{%endblock%}

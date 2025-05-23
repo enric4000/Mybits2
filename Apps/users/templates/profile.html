@@ -1,0 +1,100 @@
+{% extends 'home.html' %}
+
+{% block subtitle %} Profile page{%endblock%}
+
+{% block content %}
+<div class="container-panel">
+    <h1 class="container-panel-header">Profile</h1>
+    <br>
+    <form action="" method="post" class="form" id="updateForm">
+        {% if form.errors %}
+            <div>
+                {% for error in form.non_field_errors %}
+                    <p class="form-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+        {% for item in form%}
+            <div class="form-item required" id="form {{item.label}}">
+
+                {%if item.help_text%}
+                    <br>
+                    <label class="form-section">{{item.help_text}}</label>
+                    <br>
+                {%endif%}
+
+                <class class="from-label">{{ item.label_tag }}</class>
+                {{ item }}
+
+                {%if item.errors%}
+                    <label class="form-input-error">{{ item.errors }}</label>
+                {%endif%}
+                
+            </div>
+        {% endfor %}
+
+        <button class="button" type="submit">Update</button>
+        <br>
+        <button class="button-red" onclick="confirmAndDelete()">Delete</button>
+    </form>
+
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Encuentra todos los divs que representan campos tipo "_other"
+        const otherDivs = document.querySelectorAll('div[id^="form "][id$="(other)"]');
+    
+        otherDivs.forEach(function (div) {
+            const fieldName = div.id.slice(0, -8);
+            const baseFieldId = document.getElementById(fieldName).querySelector("select");
+                ;
+            console.log(fieldName);
+            console.log(baseFieldId);
+            if (!baseFieldId) return;
+            div.style.display = "none";
+
+            function toggleVisibility() {
+                if (baseFieldId.value === "OTHER") {
+                    div.style.display = "flex";
+                } else {
+                    div.style.display = "none";
+                    div.querySelector("input").value = "";
+                }
+            }
+            baseFieldId.addEventListener("change", toggleVisibility);
+            toggleVisibility();
+        });
+    });
+</script>
+
+<script>
+    function confirmAndDelete() {
+    const confirmed = confirm("Are you sure you want to delete this?");
+    const csrftoken = '{{ csrf_token }}';
+
+    if (confirmed) {
+    fetch(window.location.href, {
+        method: 'DELETE',
+        headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken
+        }
+    })
+    .then(response => {
+        if (response.status === 204) {
+        alert('Deleted successfully');
+        window.location.href = '/';
+        } else {
+        alert('Delete failed');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+    }
+}
+</script>
+{% endblock %}
