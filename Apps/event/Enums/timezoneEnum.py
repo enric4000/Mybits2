@@ -1,0 +1,53 @@
+from enum import Enum
+
+class TimezoneEnum(Enum):
+    """
+    An enumeration containing UTC time zones with their corresponding offsets.
+    """
+    UTC_MINUS_12 = "GMT+12"
+    UTC_MINUS_11 = "GMT+11"
+    UTC_MINUS_10 = "GMT+10"
+    UTC_MINUS_9_30 = "GMT+9:30"
+    UTC_MINUS_9 = "GMT+9"
+    UTC_MINUS_8 = "GMT+8"
+    UTC_MINUS_7 = "GMT+7"
+    UTC_MINUS_6 = "GMT+6"
+    UTC_MINUS_5 = "GMT+5"
+    UTC_MINUS_4 = "GMT+4"
+    UTC_MINUS_3_30 = "GMT+3:30"
+    UTC_MINUS_3 = "GMT+3"
+    UTC_MINUS_2 = "GMT+2"
+    UTC_MINUS_1 = "GMT+1"
+    UTC = "GMT+0"
+    UTC_PLUS_1 = "GMT-1"
+    UTC_PLUS_2 = "GMT-2"
+    UTC_PLUS_3 = "GMT-3"
+    UTC_PLUS_3_30 = "GMT-3:30"
+    UTC_PLUS_4 = "GMT-4"
+    UTC_PLUS_4_30 = "GMT-4:30"
+    UTC_PLUS_5 = "GMT-5"
+    UTC_PLUS_5_30 = "GMT-5:30"
+    UTC_PLUS_5_45 = "GMT-5:45"
+    UTC_PLUS_6 = "GMT-6"
+    UTC_PLUS_6_30 = "GMT-6:30"
+    UTC_PLUS_7 = "GMT-7"
+    UTC_PLUS_8 = "GMT-8"
+    UTC_PLUS_8_30 = "GMT-8:30"
+    UTC_PLUS_8_45 = "GMT-8:45"
+    UTC_PLUS_9 = "GMT-9"
+    UTC_PLUS_9_30 = "GMT-9:30"
+    UTC_PLUS_10 = "GMT-10"
+    UTC_PLUS_10_30 = "GMT-10:30"
+    UTC_PLUS_11 = "GMT-11"
+    UTC_PLUS_11_30 = "GMT-11:30"
+    UTC_PLUS_12 = "GMT-12"
+    UTC_PLUS_12_45 = "GMT-12:45"
+    UTC_PLUS_13 = "GMT-13"
+    UTC_PLUS_14 = "GMT-14"
+
+    @classmethod
+    def choices(cls):
+        """
+        Returns a list of tuples containing the enum name and value.
+        """
+        return [(tag.name, tag.value) for tag in cls]
