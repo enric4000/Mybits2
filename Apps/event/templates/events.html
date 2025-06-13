@@ -17,6 +17,9 @@
     {% for event in events%}
         <div class="list-item" id="event {{event.id}}">
             <a class="list-item-text" href="/event/{{event.id}}/">{{event.name}} <a class="list-item-text-little">{{event.description}}</a></a>
+                {% if event.end_date > today %}
+                    <div style="margin-left: auto;"><a class="button" href="/event/{{event.id}}/participant/apply/">Apply now!</a></div>
+                {% endif %}
         </div>
     {% endfor %}
 </div>

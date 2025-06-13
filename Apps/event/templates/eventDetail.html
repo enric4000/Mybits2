@@ -1,0 +1,29 @@
+{% extends 'home.html' %}
+
+{% block subtitle %} Event page{%endblock%}
+
+{% block content %}
+<div class="container-panel">
+    <h1 class="container-panel-header">Event</h1>
+    <br>
+    <div style="flex-direction: row; display: inline-flex;"> 
+        {% if is_participant%}
+            <div style="margin-right: 2px;"><a class="button-green" href="{{request.path}}participant/mine/">My application!</a></div>
+            <div style="margin-right: 2px;"><a class="button" href="{{request.path}}participant/id/">QR id</a></div>
+            <div style="margin-right: 2px;"><a class="button-orange" href="{{request.path}}team/">Team</a></div>
+            <div style="margin-right: 2px;"><a class="button-red" href="{{request.path}}hardware/">Hardware</a></div>
+            <div style="margin-right: 2px;"><a class="button" href="{{request.path}}project/">Project</a></div>
+        {% else %}
+            <div style="margin-right: 2px;"><a class="button" href="{{request.path}}/participant/apply/">Apply now!</a></div>
+        {% endif %}
+    </div>
+    <br>
+    <br>
+    {% for field in fields %}
+        <div class="form-item required">
+            <class class="profile-field-name">{{ field.name }}</class>
+            <class class="profile-field-value">{{ field.value  }}</class>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
