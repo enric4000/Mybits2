@@ -1,6 +1,8 @@
 from django.db.models import Q
+from django.forms import model_to_dict
 from django.utils.timezone import now
 from .models import Event
+from .Enums.timezoneEnum import TimezoneEnum  # Adjust the import path as needed
 
 
 class EventService:
@@ -27,7 +29,8 @@ class EventService:
 
     @staticmethod
     def delete_event(event_id):
-        return Event.objects.delete(event_id)
+        event = EventService.get_event(event_id)
+        return event.delete()
 
     @staticmethod
     def get_first_100_events():
@@ -63,28 +66,28 @@ class EventService:
         if event.end_date < now():
             return opened_applications
 
-        if event.hacker_deadline < now():
+        if event.hacker_deadline > now():
             opened_applications.update(
                 {
                     "hacker_applications": True,
                 }
             )
 
-        if event.mentor_deadline < now():
+        if event.mentor_deadline > now():
             opened_applications.update(
                 {
                     "mentor_applications": True,
                 }
             )
 
-        if event.sponsor_deadline < now():
+        if event.sponsor_deadline > now():
             opened_applications.update(
                 {
                     "sponsor_applications": True,
                 }
             )
 
-        if event.volunteer_deadline < now():
+        if event.volunteer_deadline > now():
             opened_applications.update(
                 {
                     "volunteer_applications": True,
@@ -94,22 +97,30 @@ class EventService:
         return opened_applications
 
     @staticmethod
-    def is_hacker_deadline_valid(event):
-        return event.hacker_deadline < now() and event.end_date > event.hacker_deadline
+    def event_to_dict(event):
+        """
+        Convert an event instance to a dictionary.
+        """
+        excluded_fields = {
+            "hacker_deadline",
+            "mentor_deadline",
+            "sponsor_deadline",
+            "volunteer_deadline",
+            "activities_enabled",
+            "warehouse_enabled",
+            "hardware_enabled",
+            "judging_enabled",
+        }
+        event_dict = model_to_dict(event)
+        event_fields = [
+            {"name": key, "value": value}
+            for key, value in event_dict.items()
+            if key not in excluded_fields
+        ]
+        timezone_value = TimezoneEnum[event.timezone].value
+        for field in event_fields:
+            if field["name"] == "timezone":
+                field["value"] = timezone_value
+                break
 
-    @staticmethod
-    def is_mentor_deadline_valid(event):
-        return event.mentor_deadline < now() and event.end_date > event.mentor_deadline
-
-    @staticmethod
-    def is_sponsor_deadline_valid(event):
-        return (
-            event.sponsor_deadline < now() and event.end_date > event.sponsor_deadline
-        )
-
-    @staticmethod
-    def is_volunteer_deadline_valid(event):
-        return (
-            event.volunteer_deadline < now()
-            and event.end_date > event.volunteer_deadline
-        )
+        return event_fields

@@ -1,0 +1,39 @@
+{% extends 'home.html' %}
+
+{% block subtitle %} Participants page{%endblock%}
+
+{% block content %}
+<div class="container-panel">
+    <h1 class="container-panel-header">Apply as</h1>
+    <br>
+    <br>
+
+        <div class="" style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;">
+            {%if hacker_applications%}
+            <div>
+                <a class="button" href="/event/{{ event_id }}/participant/apply/?type=hacker">Hacker</a>
+            </div>
+            {%endif%}
+            {%if mentor_applications%}
+            <div>
+                <a class="button-green" href="/event/{{ event_id }}/participant/apply/?type=mentor">Mentor</a>
+            </div>
+            {%endif%}
+            {%if sponsor_applications%}
+            <div>
+                <a class="button-red" href="/event/{{ event_id }}/participant/apply/?type=sponsor">Sponsor</a>
+            </div>
+            {%endif%}
+            {%if volunteer_applications%}
+            <div>
+                <a class="button-orange" href="/event/{{ event_id }}/participant/apply/?type=volunteer">Volunteer</a>
+            </div>
+            {%endif%}
+            {% if not hacker_applications and not mentor_applications and not sponsor_applications and not volunteer_applications %}
+            <div>
+                <a class="button" href="/event/">No applications available, try again next time!</a>
+            </div>
+            {% endif %}
+        </div>
+</div>
+{% endblock %}

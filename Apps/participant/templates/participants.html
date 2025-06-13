@@ -1,0 +1,40 @@
+{% extends 'home.html' %}
+
+{% block subtitle %} Participants page{%endblock%}
+
+{% block content %}
+<div class="container-panel">
+    <h1 class="container-panel-header">Participants</h1>
+    <br>
+    <form action="" method="get" class="form" id="updateForm">
+        <class class="from-label">Enter a name or email to search for</class>
+        <input class="form-input" type="text" id="search" name="search" placeholder="John Doe" />
+        <label class="form-label" for="status">Status</label>
+        <select class="form-input" id="status" name="status">
+            <option value="">Select Status</option>
+            <option value="Under Review">Under Review</option>
+            <option value="Confirmed">Confirmed</option>
+            <option value="Attended">Attended</option>
+            <option value="Cancelled">Cancelled</option>
+            <option value="Expired">Expired</option>
+        </select>
+        
+        <label class="form-label" for="type">Type</label>
+        <select class="form-input" id="type" name="type">
+            <option value="">Select Type</option>
+            <option value="Hacker">Hacker</option>
+            <option value="Mentor">Mentor</option>
+            <option value="Sponsor">Sponsor</option>
+            <option value="Volunteer">Volunteer</option>
+            <option value="Admin">Admin</option>
+        </select>
+        <button class="button" type="submit">Search</button>
+    </form>
+    {% for participant in participants%}
+        <div class="list-item" id="participant {{participant.id}}">
+            <a class="list-item-text" href="{{request.path}}{{participant.id}}/">{{participant.user__first_name}} {{participant.user__last_name}} <a class="list-item-text-little">({{participant.user__pronoun}})</a></a>
+            <div style="margin-left: auto;"><a class="button">{{participant.type}}</a></div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

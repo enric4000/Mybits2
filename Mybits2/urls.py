@@ -24,5 +24,10 @@ urlpatterns = [
     path("", views.HomeView.as_view(), name="home"),
     path("user/", include("Apps.users.urls")),
     path("event/<str:event_id>/participant/", include("Apps.participant.urls")),
+    path("event/<str:event_id>/team/", include("Apps.team.urls")),
+    path("event/<str:event_id>/activity/", include("Apps.activity.urls")),
+    path("event/<str:event_id>/hardware/", include("Apps.hardware.urls")),
+    path("event/<str:event_id>/warehouse/", include("Apps.warehouse.urls")),
+    path("event/<str:event_id>/project/", include("Apps.project.urls")),
     path("event/", include("Apps.event.urls")),
 ]
