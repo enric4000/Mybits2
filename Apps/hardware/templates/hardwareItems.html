@@ -1,0 +1,21 @@
+{% extends 'home.html' %}
+
+{% block subtitle %} Hardware page{%endblock%}
+
+{% block content %}
+<div class="container-panel">
+    <h1 class="container-panel-header">Hardware</h1>
+    <br>
+    <form action="" method="get" class="form" id="updateForm">
+        <class class="from-label">Enter a name or abbreviation to search for</class>
+        <input class="form-input" type="text" id="search" name="search" placeholder="Example: Raspe RSP" />
+        <button class="button" type="submit">Search</button>
+    </form>
+    <br>
+    {% for item in hardware_items%}
+        <div class="list-item" id="item {{item.id}}">
+            <a class="list-item-text" href="{{request.path}}{{item.id}}/">{{item.name}} <a class="list-item-text-little">{{item.description}} ({{item.quantity_available}})</a></a></a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
