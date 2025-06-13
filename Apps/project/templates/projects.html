@@ -1,0 +1,21 @@
+{% extends 'home.html' %}
+
+{% block subtitle %} Projects page{%endblock%}
+
+{% block content %}
+<div class="container-panel">
+    <h1 class="container-panel-header">Projects</h1>
+    <br>
+    <form action="" method="get" class="form" id="updateForm">
+        <class class="from-label">Enter a name to search for</class>
+        <input class="form-input" type="text" id="search" name="search" placeholder="Example: Terminator4K" />
+        <button class="button" type="submit">Search</button>
+    </form>
+    <br>
+    {% for project in projects%}
+        <div class="list-item" id="project {{project.id}}">
+            <a class="list-item-text" href="{{request.path}}{{project.id}}/">  {{project.name}} <a class="list-item-text-little">  {{project.description}} ({{project.valoration}})</a></a></a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
