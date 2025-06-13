@@ -1,0 +1,17 @@
+{% extends 'home.html' %}
+
+{% block subtitle %} Team Id page{%endblock%}
+
+{% block content %}
+<div class="container-panel">
+    <h1 class="container-panel-header">Team Id</h1>
+    <br>
+    <div class="qr">
+        <div id="qrcode" class="qr-internal"></div>
+    </div>
+    <script>
+        const texto = "{{ team_id|escapejs }}";
+        new QRCode(document.getElementById("qrcode"), texto);
+    </script>
+</div>
+{% endblock %}

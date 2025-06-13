@@ -1,0 +1,21 @@
+{% extends 'home.html' %}
+
+{% block subtitle %} Teams page{%endblock%}
+
+{% block content %}
+<div class="container-panel">
+    <h1 class="container-panel-header">Teams</h1>
+    <br>
+    <form action="" method="get" class="form" id="updateForm">
+        <class class="from-label">Enter a name or id to search for</class>
+        <input class="form-input" type="text" id="search" name="search" placeholder="Example: HackUPCteam 0000-00000000-0000" />
+        <button class="button" type="submit">Search</button>
+    </form>
+    <br>
+    {% for team in teams%}
+        <div class="list-item" id="team {{team.id}}">
+            <a class="list-item-text" href="{{request.path}}{{team.id}}/">{{team.name}}</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
