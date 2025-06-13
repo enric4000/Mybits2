@@ -1,0 +1,16 @@
+{% extends 'home.html' %}
+
+{% block subtitle %} Hardware item page{%endblock%}
+
+{% block content %}
+<div class="container-panel">
+    <h1 class="container-panel-header">Hardware item</h1>
+    <br>
+    {% for field in fields %}
+        <div class="form-item required">
+            <class class="profile-field-name">{{ field.name }}</class>
+            <class class="profile-field-value">{{ field.value  }}</class>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
