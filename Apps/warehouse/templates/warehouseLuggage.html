@@ -1,0 +1,21 @@
+{% extends 'home.html' %}
+
+{% block subtitle %} Warehouses page{%endblock%}
+
+{% block content %}
+<div class="container-panel">
+    <h1 class="container-panel-header">Warehouses</h1>
+    <br>
+    <form action="" method="get" class="form" id="updateForm">
+        <class class="from-label">Enter a name to search for</class>
+        <input class="form-input" type="text" id="search" name="search" placeholder="Example: HackUPCwarehouse" />
+        <button class="button" type="submit">Search</button>
+    </form>
+    <br>
+    {% for luggageItem in luggage%}
+        <div class="list-item" id="luggageItem {{luggageItem.id}}">
+            <a class="list-item-text" href="/event/{{event_id}}/warehouse/{{warehouse_id}}/luggage/{{luggageItem.id}}/">{{luggageItem.name}} <a class="list-item-text-little">({{luggageItem.description}}[R:{{luggageItem.row_position}}][C:{{luggageItem.column_position}}])</a></a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
