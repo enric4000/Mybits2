@@ -32,7 +32,8 @@
     </form>
     {% for participant in participants%}
         <div class="list-item" id="participant {{participant.id}}">
-            <!--a class="list-item-text" href="/participant/{{participant.id}}/profile">{{user.first_name}} {{user.last_name}} <a class="list-item-text-little">({{user.pronoun}})</a></a--->
+            <a class="list-item-text" href="{{request.path}}{{participant.id}}/">{{participant.user__first_name}} {{participant.user__last_name}} <a class="list-item-text-little">({{participant.user__pronoun}})</a></a>
+            <div style="margin-left: auto;"><a class="button">{{participant.type}}</a></div>
         </div>
     {% endfor %}
 </div>

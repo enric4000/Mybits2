@@ -1,15 +1,12 @@
 {% extends 'home.html' %}
 
-{% block subtitle %} Event register page{%endblock%}
+{% block subtitle %} Participant application page{%endblock%}
 
 {% block content %}
 <div class="container-panel">
-    <h1 class="container-panel-header">Event register</h1>
+    <h1 class="container-panel-header">Application</h1>
     <br>
-    <a class="button" href="{{ request.path }}participant/">Participants</a>
-    <a class="button-orange" href="{{ request.path }}team/">Teams</a>
-    <a class="button-green" href="{{ request.path }}activity/">Activities</a>
-    <form action="" method="post" class="form" id="editForm">
+    <form action="" method="post" class="form" id="registerForm">
         {% if form.errors %}
             <div>
                 {% for error in form.non_field_errors %}
@@ -21,7 +18,7 @@
             <div>
                 <p class="form-confirmation">{{ confirmation }}</p>
             </div>
-        {% endif %}
+        {% endif %}              
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
         {% for item in form%}
@@ -43,10 +40,39 @@
             </div>
         {% endfor %}
 
-        <button class="button" type="submit">Edit</button>
+        <br>
+        <br>
+
+        <button class="button-green" type="submit">Edit</button>
     </form>
     <button class="button-red" onclick="confirmAndDelete()">Delete</button>
+
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Find every other field, and hides it until the user selects "OTHER" in the select field
+        const otherDivs = document.querySelectorAll('div[id^="form "][id$="(other)"]');
+    
+        otherDivs.forEach(function (div) {
+            const fieldName = div.id.slice(0, -8);
+            const baseFieldId = document.getElementById(fieldName).querySelector("select");
+
+            if (!baseFieldId) return;
+            div.style.display = "none";
+
+            function toggleVisibility() {
+                if (baseFieldId.value === "OTHER") {
+                    div.style.display = "flex";
+                } else {
+                    div.style.display = "none";
+                    div.querySelector("input").value = "";
+                }
+            }
+            baseFieldId.addEventListener("change", toggleVisibility);
+            toggleVisibility();
+        });
+    });
+</script>
 
 <script>
     function confirmAndDelete() {
@@ -64,7 +90,7 @@
     .then(response => {
         if (response.status === 204) {
         alert('Deleted successfully');
-        window.location.href = '/event/';
+        window.location.href = '/';
         } else {
         alert('Delete failed');
         }

@@ -1,4 +1,6 @@
 from django import forms
+
+from Apps.participant.Enums.participantTypeEnum import ParticipantTypeEnum
 from .models import Participant, Hacker, Mentor, Sponsor, Volunteer, Admin
 
 
@@ -105,60 +107,79 @@ class HackerForm(ParticipantForm):
             "subscribe": forms.CheckboxInput(attrs={"class": "form-checkbox"}),
         }
 
+    def __init__(
+        self, *args, participant_type=ParticipantTypeEnum.HACKER.value, **kwargs
+    ):
+        super().__init__(*args, **kwargs)
+        self.participant_type = ParticipantTypeEnum.HACKER.value
+
+        if self.instance and participant_type is not None:
+            self.instance.type = participant_type
+
 
 class MentorForm(ParticipantForm):
     """
     This form is used to create a mentor.
     """
 
-    model = Mentor
-    fields = "__all__"
-    exclude = ParticipantForm.Meta.exclude
-    labels = {
-        **ParticipantForm.Meta.labels,
-        "university": "In which university are you studying, or did you study?",
-        "degree": "Which degree?",
-        "position": "If you aren't a student, what is your current position?",
-        "english_level": "How would you rate your English level?",
-        "hear_about_us": "How did you hear about us?",
-        "personal_projects": "Tell us about your personal projects",
-        "github": "Leave us your GitHub link",
-        "devpost": "Leave us your Devpost link",
-        "linkedin": "Leave us your LinkedIn link",
-        "personal": "Leave us your personal website or project",
-        "cv": "Upload your CV",
-        "subscribe": "Do you want to subscribe to our newsletter?",
-    }
-    help_texts = {
-        **ParticipantForm.Meta.help_texts,
-        "university": "Studies or job position info 🎓",
-        "degree": "",
-        "position": "",
-        "english_level": "Let us know more about you 👀",
-        "hear_about_us": "",
-        "personal_projects": "",
-        "github": "Levave us your links to know more about you 💻!",
-        "devpost": "",
-        "linkedin": "",
-        "personal": "",
-        "cv": "Just two more questions! 📄",
-        "subscribe": "",
-    }
-    widgets = {
-        **ParticipantForm.Meta.widgets,
-        "university": forms.TextInput(attrs={"class": "form-input"}),
-        "degree": forms.TextInput(attrs={"class": "form-input"}),
-        "position": forms.TextInput(attrs={"class": "form-input"}),
-        "english_level": forms.Select(attrs={"class": "form-select"}),
-        "hear_about_us": forms.TextInput(attrs={"class": "form-input"}),
-        "personal_projects": forms.Textarea(attrs={"class": "form-input"}),
-        "github": forms.TextInput(attrs={"class": "form-input"}),
-        "devpost": forms.TextInput(attrs={"class": "form-input"}),
-        "linkedin": forms.TextInput(attrs={"class": "form-input"}),
-        "personal": forms.TextInput(attrs={"class": "form-input"}),
-        "cv": forms.ClearableFileInput(attrs={"class": "form-input"}),
-        "subscribe": forms.CheckboxInput(attrs={"class": "form-checkbox"}),
-    }
+    class Meta(ParticipantForm.Meta):
+        model = Mentor
+        fields = "__all__"
+        exclude = ParticipantForm.Meta.exclude
+        labels = {
+            **ParticipantForm.Meta.labels,
+            "university": "In which university are you studying, or did you study?",
+            "degree": "Which degree?",
+            "position": "If you aren't a student, what is your current position?",
+            "english_level": "How would you rate your English level?",
+            "hear_about_us": "How did you hear about us?",
+            "personal_projects": "Tell us about your personal projects",
+            "github": "Leave us your GitHub link",
+            "devpost": "Leave us your Devpost link",
+            "linkedin": "Leave us your LinkedIn link",
+            "personal": "Leave us your personal website or project",
+            "cv": "Upload your CV",
+            "subscribe": "Do you want to subscribe to our newsletter?",
+        }
+        help_texts = {
+            **ParticipantForm.Meta.help_texts,
+            "university": "Studies or job position info 🎓",
+            "degree": "",
+            "position": "",
+            "english_level": "Let us know more about you 👀",
+            "hear_about_us": "",
+            "personal_projects": "",
+            "github": "Levave us your links to know more about you 💻!",
+            "devpost": "",
+            "linkedin": "",
+            "personal": "",
+            "cv": "Just two more questions! 📄",
+            "subscribe": "",
+        }
+        widgets = {
+            **ParticipantForm.Meta.widgets,
+            "university": forms.TextInput(attrs={"class": "form-input"}),
+            "degree": forms.TextInput(attrs={"class": "form-input"}),
+            "position": forms.TextInput(attrs={"class": "form-input"}),
+            "english_level": forms.Select(attrs={"class": "form-select"}),
+            "hear_about_us": forms.TextInput(attrs={"class": "form-input"}),
+            "personal_projects": forms.Textarea(attrs={"class": "form-input"}),
+            "github": forms.TextInput(attrs={"class": "form-input"}),
+            "devpost": forms.TextInput(attrs={"class": "form-input"}),
+            "linkedin": forms.TextInput(attrs={"class": "form-input"}),
+            "personal": forms.TextInput(attrs={"class": "form-input"}),
+            "cv": forms.ClearableFileInput(attrs={"class": "form-input"}),
+            "subscribe": forms.CheckboxInput(attrs={"class": "form-checkbox"}),
+        }
+
+    def __init__(
+        self, *args, participant_type=ParticipantTypeEnum.MENTOR.value, **kwargs
+    ):
+        super().__init__(*args, **kwargs)
+        self.participant_type = ParticipantTypeEnum.MENTOR.value
+
+        if self.instance and participant_type is not None:
+            self.instance.type = participant_type
 
 
 class SponsorForm(ParticipantForm):
@@ -166,24 +187,34 @@ class SponsorForm(ParticipantForm):
     This form is used to create a sponsor.
     """
 
-    model = Sponsor
-    fields = "__all__"
-    exclude = ParticipantForm.Meta.exclude
-    labels = {
-        **ParticipantForm.Meta.labels,
-        "company_name": "What is your company name?",
-        "position": "What is your position?",
-    }
-    help_texts = {
-        **ParticipantForm.Meta.help_texts,
-        "company_name": "Company info 🏢",
-        "position": "",
-    }
-    widgets = {
-        **ParticipantForm.Meta.widgets,
-        "company_name": forms.TextInput(attrs={"class": "form-input"}),
-        "position": forms.TextInput(attrs={"class": "form-input"}),
-    }
+    class Meta(ParticipantForm.Meta):
+        model = Sponsor
+        fields = "__all__"
+        exclude = ParticipantForm.Meta.exclude
+        labels = {
+            **ParticipantForm.Meta.labels,
+            "company_name": "What is your company name?",
+            "position": "What is your position?",
+        }
+        help_texts = {
+            **ParticipantForm.Meta.help_texts,
+            "company_name": "Company info 🏢",
+            "position": "",
+        }
+        widgets = {
+            **ParticipantForm.Meta.widgets,
+            "company_name": forms.TextInput(attrs={"class": "form-input"}),
+            "position": forms.TextInput(attrs={"class": "form-input"}),
+        }
+
+    def __init__(
+        self, *args, participant_type=ParticipantTypeEnum.SPONSOR.value, **kwargs
+    ):
+        super().__init__(*args, **kwargs)
+        self.participant_type = ParticipantTypeEnum.SPONSOR.value
+
+        if self.instance and participant_type is not None:
+            self.instance.type = participant_type
 
 
 class VolunteerForm(ParticipantForm):
@@ -191,54 +222,64 @@ class VolunteerForm(ParticipantForm):
     This form is used to create a volunteer.
     """
 
-    model = Volunteer
-    fields = "__all__"
-    exclude = ParticipantForm.Meta.exclude
-    labels = {
-        **ParticipantForm.Meta.labels,
-        "university": "In which university are you studying, or did you study?",
-        "degree": "Which degree?",
-        "position": "If you aren't a student, what is your current position?",
-        "languages": "Which languages do you speak?",
-        "first_volunteering": "Is this your first volunteering?",
-        "hear_about_us": "How did you hear about us?",
-        "cool_skill": "What is your coolest skill?",
-        "personal_qualities": "What are your personal qualities?",
-        "personal_weakness": "What are your personal weaknesses?",
-        "motivation": "Why do you want to volunteer?",
-        "nigth_shifts": "Are you available for night shifts?",
-        "subscribe": "Do you want to subscribe to our newsletter?",
-    }
-    help_texts = {
-        **ParticipantForm.Meta.help_texts,
-        "university": "Studies or job position info 🎓",
-        "degree": "",
-        "position": "",
-        "languages": "Tell us more about you 👀",
-        "first_volunteering": "",
-        "hear_about_us": "",
-        "cool_skill": "",
-        "personal_qualities": "",
-        "personal_weakness": "",
-        "motivation": "",
-        "nigth_shifts": "",
-        "subscribe": "",
-    }
-    widgets = {
-        **ParticipantForm.Meta.widgets,
-        "university": forms.TextInput(attrs={"class": "form-input"}),
-        "degree": forms.TextInput(attrs={"class": "form-input"}),
-        "position": forms.TextInput(attrs={"class": "form-input"}),
-        "languages": forms.TextInput(attrs={"class": "form-input"}),
-        "first_volunteering": forms.CheckboxInput(attrs={"class": "form-checkbox"}),
-        "hear_about_us": forms.TextInput(attrs={"class": "form-input"}),
-        "cool_skill": forms.TextInput(attrs={"class": "form-input"}),
-        "personal_qualities": forms.Textarea(attrs={"class": "form-input"}),
-        "personal_weakness": forms.Textarea(attrs={"class": "form-input"}),
-        "motivation": forms.Textarea(attrs={"class": "form-input"}),
-        "nigth_shifts": forms.CheckboxInput(attrs={"class": "form-checkbox"}),
-        "subscribe": forms.CheckboxInput(attrs={"class": "form-checkbox"}),
-    }
+    class Meta(ParticipantForm.Meta):
+        model = Volunteer
+        fields = "__all__"
+        exclude = ParticipantForm.Meta.exclude
+        labels = {
+            **ParticipantForm.Meta.labels,
+            "university": "In which university are you studying, or did you study?",
+            "degree": "Which degree?",
+            "position": "If you aren't a student, what is your current position?",
+            "languages": "Which languages do you speak?",
+            "first_volunteering": "Is this your first volunteering?",
+            "hear_about_us": "How did you hear about us?",
+            "cool_skill": "What is your coolest skill?",
+            "personal_qualities": "What are your personal qualities?",
+            "personal_weakness": "What are your personal weaknesses?",
+            "motivation": "Why do you want to volunteer?",
+            "nigth_shifts": "Are you available for night shifts?",
+            "subscribe": "Do you want to subscribe to our newsletter?",
+        }
+        help_texts = {
+            **ParticipantForm.Meta.help_texts,
+            "university": "Studies or job position info 🎓",
+            "degree": "",
+            "position": "",
+            "languages": "Tell us more about you 👀",
+            "first_volunteering": "",
+            "hear_about_us": "",
+            "cool_skill": "",
+            "personal_qualities": "",
+            "personal_weakness": "",
+            "motivation": "",
+            "nigth_shifts": "",
+            "subscribe": "",
+        }
+        widgets = {
+            **ParticipantForm.Meta.widgets,
+            "university": forms.TextInput(attrs={"class": "form-input"}),
+            "degree": forms.TextInput(attrs={"class": "form-input"}),
+            "position": forms.TextInput(attrs={"class": "form-input"}),
+            "languages": forms.TextInput(attrs={"class": "form-input"}),
+            "first_volunteering": forms.CheckboxInput(attrs={"class": "form-checkbox"}),
+            "hear_about_us": forms.TextInput(attrs={"class": "form-input"}),
+            "cool_skill": forms.TextInput(attrs={"class": "form-input"}),
+            "personal_qualities": forms.Textarea(attrs={"class": "form-input"}),
+            "personal_weakness": forms.Textarea(attrs={"class": "form-input"}),
+            "motivation": forms.Textarea(attrs={"class": "form-input"}),
+            "nigth_shifts": forms.CheckboxInput(attrs={"class": "form-checkbox"}),
+            "subscribe": forms.CheckboxInput(attrs={"class": "form-checkbox"}),
+        }
+
+    def __init__(
+        self, *args, participant_type=ParticipantTypeEnum.VOLUNTEER.value, **kwargs
+    ):
+        super().__init__(*args, **kwargs)
+        self.participant_type = ParticipantTypeEnum.VOLUNTEER.value
+
+        if self.instance and participant_type is not None:
+            self.instance.type = participant_type
 
 
 class AdminForm(ParticipantForm):
@@ -246,15 +287,25 @@ class AdminForm(ParticipantForm):
     This form is used to create an admin.
     """
 
-    model = Admin
-    fields = "__all__"
-    exclude = ParticipantForm.Meta.exclude
-    labels = {
-        **ParticipantForm.Meta.labels,
-    }
-    help_texts = {
-        **ParticipantForm.Meta.help_texts,
-    }
-    widgets = {
-        **ParticipantForm.Meta.widgets,
-    }
+    class Meta(ParticipantForm.Meta):
+        model = Admin
+        fields = "__all__"
+        exclude = ParticipantForm.Meta.exclude
+        labels = {
+            **ParticipantForm.Meta.labels,
+        }
+        help_texts = {
+            **ParticipantForm.Meta.help_texts,
+        }
+        widgets = {
+            **ParticipantForm.Meta.widgets,
+        }
+
+    def __init__(
+        self, *args, participant_type=ParticipantTypeEnum.ADMIN.value, **kwargs
+    ):
+        super().__init__(*args, **kwargs)
+        self.participant_type = ParticipantTypeEnum.ADMIN.value
+
+        if self.instance and participant_type is not None:
+            self.instance.type = participant_type

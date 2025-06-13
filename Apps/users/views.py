@@ -132,8 +132,7 @@ class CustomLogoutView(LoginView):
     """
 
     def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            logout(request)
+        logout(request)
         return redirect("/")
 
 

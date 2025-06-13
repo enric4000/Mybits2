@@ -14,6 +14,49 @@
             <div class="nav-general">
                 <a class="nav-general-item" href="/event/">Events</a>
             </div>
+            {% if extend_navigation %} 
+                <div class="nav-general">
+                    <a class="nav-general-item" href="{{ request.path|slice:':43' }}/participant/mine/">My application</a>
+                </div>
+                <div class="nav-general">
+                    <a class="nav-general-item" href="{{ request.path|slice:':43' }}/participant/id/">QR id</a>
+                </div>
+                {% if is_admin %}
+                    <div class="nav-general">
+                        <a class="nav-general-item" href="{{ request.path|slice:':43' }}/team/">Teams</a>
+                    </div>
+                    {% if activities_enabled %}
+                        <div class="nav-general">
+                            <a class="nav-general-item" href="{{ request.path|slice:':43' }}/activity/">Activities</a>
+                        </div>
+                    {% endif %}
+                    {% if warehouse_enabled %}
+                        <div class="nav-general">
+                            <a class="nav-general-item" href="{{ request.path|slice:':43' }}/warehouse/">Warehouses</a>
+                        </div>
+                    {% endif %}
+                    {% if judging_enabled %}
+                        <div class="nav-general">
+                            <a class="nav-general-item" href="{{ request.path|slice:':43' }}/project/">Projects</a>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="nav-general">
+                        <a class="nav-general-item" href="{{ request.path|slice:':43' }}/team/">Team</a>
+                    </div>
+                    <div class="nav-general">
+                        <a class="nav-general-item" href="{{ request.path|slice:':43' }}/project/">Project</a>
+                    </div>
+                {% endif %}
+                    {% if hardware_enabled %}
+                        <div class="nav-general">
+                            <a class="nav-general-item" href="{{ request.path|slice:':43' }}/hardware/">Hardware</a>
+                        </div>
+                    {% endif %} 
+                    <div class="nav-general">
+                        <a class="nav-general-item" href="{{ request.path|slice:':43' }}/">Current Event</a>
+                    </div>  
+            {% endif %}
         </div>
 
         <div id="navbarNav">

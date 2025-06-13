@@ -6,6 +6,18 @@
 <div class="container-panel">
     <h1 class="container-panel-header">Participant</h1>
     <br>
+    {% if admin and is_under_review%}
+        <div style="flex-direction: row; display: inline-flex;"> 
+            <div style="margin-right: 10px;">
+                <button class="button-green" onclick="acceptParticipant()">Accept</button>
+            </div>
+            <div style="margin-right: 10px;">
+                <button class="button-red" onclick="rejectParticipant()">Reject</button>
+            </div>
+        </div>
+        <br>
+        <br>
+    {% endif %}
     {% for field in fields %}
         <div class="form-item required">
             <class class="profile-field-name">{{ field.name }}</class>
@@ -13,4 +25,40 @@
         </div>
     {% endfor %}
 </div>
+<script>
+    function acceptParticipant() {
+        fetch("{{request.path}}accept/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: JSON.stringify({})
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                alert("Failed to accept participant.");
+            }
+        });
+    }
+    function rejectParticipant() {
+        fetch("{{request.path}}reject/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: JSON.stringify({})
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                alert("Failed to reject participant.");
+            }
+        });
+    }
+</script>
 {% endblock %}

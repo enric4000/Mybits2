@@ -29,6 +29,11 @@
                 <a class="button-orange" href="/event/{{ event_id }}/participant/apply/?type=volunteer">Volunteer</a>
             </div>
             {%endif%}
+            {% if not hacker_applications and not mentor_applications and not sponsor_applications and not volunteer_applications %}
+            <div>
+                <a class="button" href="/event/">No applications available, try again next time!</a>
+            </div>
+            {% endif %}
         </div>
 </div>
 {% endblock %}

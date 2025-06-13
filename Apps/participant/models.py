@@ -29,7 +29,7 @@ class Participant(models.Model):
     )
     origin = models.CharField(max_length=255, blank=False, null=False)
     status = models.CharField(
-        default=StatusEnum.UNDER_REVIEW,
+        default="Under Review",
         choices=StatusEnum.choices(),
         blank=False,
         null=False,
@@ -54,8 +54,8 @@ class Participant(models.Model):
             )
 
         if (
-            str(self.phone_number).startswith("+")
-            and not str(self.phone_number)[1:].isdigit()
+            not str(self.phone_number).startswith("+")
+            or not str(self.phone_number)[1:].isdigit()
         ):
             errors["phone_number"] = (
                 "Phone number must start with a '+' followed by digits."
@@ -101,14 +101,14 @@ class Hacker(Participant):
         """
         super().clean()
 
-        if self.type != ParticipantTypeEnum.HACKER:
+        if self.type != ParticipantTypeEnum.HACKER.value and self.type != ParticipantTypeEnum.HACKER.name:
             raise ValidationError(
                 "Participant type must be Hacker to fill this application."
             )
 
         errors = {}
 
-        if self.graduation_year < 2023:
+        if self.graduation_year is None or self.graduation_year < 2023:
             errors["graduation_year"] = "Graduation year must be 2023 or later."
 
         if errors:
@@ -123,7 +123,7 @@ class Mentor(Participant):
     university = models.CharField(max_length=255, blank=True, null=True)
     degree = models.CharField(max_length=255, blank=True, null=True)
     position = models.CharField(max_length=255, blank=True, null=True)
-    english_level = models.IntegerField(
+    english_level = models.CharField(
         choices=EnglishLevelEnum.choices(), blank=False, null=False
     )
     hear_about_us = models.CharField(max_length=255, blank=False, null=False)
@@ -142,7 +142,7 @@ class Mentor(Participant):
         """
         super().clean()
 
-        if self.type != ParticipantTypeEnum.MENTOR:
+        if self.type != ParticipantTypeEnum.MENTOR.value and self.type != ParticipantTypeEnum.MENTOR.name:
             raise ValidationError(
                 "Participant type must be Mentor to fill this application."
             )
@@ -171,7 +171,7 @@ class Sponsor(Participant):
         """
         super().clean()
 
-        if self.type != ParticipantTypeEnum.SPONSOR:
+        if self.type != ParticipantTypeEnum.SPONSOR.value and self.type != ParticipantTypeEnum.SPONSOR.name:
             raise ValidationError(
                 "Participant type must be Sponsor to fill this application."
             )
@@ -201,7 +201,7 @@ class Volunteer(Participant):
         """
         super().clean()
 
-        if self.participant_type != ParticipantTypeEnum.VOLUNTEER:
+        if self.type != ParticipantTypeEnum.VOLUNTEER.value and self.type != ParticipantTypeEnum.VOLUNTEER.name:
             raise ValidationError(
                 "Participant type must be Volunteer to fill this application."
             )
@@ -218,7 +218,7 @@ class Admin(Participant):
         """
         super().clean()
 
-        if self.type != ParticipantTypeEnum.ADMIN:
+        if self.type != ParticipantTypeEnum.ADMIN.value and self.type != ParticipantTypeEnum.ADMIN.name:
             raise ValidationError(
                 "Participant type must be Admin to fill this application."
             )
