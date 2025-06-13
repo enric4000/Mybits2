@@ -1,0 +1,43 @@
+{% extends 'home.html' %}
+
+{% block subtitle %} Activity creation page{%endblock%}
+
+{% block content %}
+<div class="container-panel">
+    <h1 class="container-panel-header">Activity creation</h1>
+    <br>
+    <form action="" method="post" class="form" id="registerForm">
+        {% if form.errors %}
+            <div>
+                {% for error in form.non_field_errors %}
+                    <p class="form-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+        {% for item in form%}
+            <div class="form-item required" id="form {{item.label}}">
+
+                {%if item.help_text%}
+                    <br>
+                    <label class="form-section">{{item.help_text}}</label>
+                    <br>
+                {%endif%}
+
+                <class class="from-label">{{ item.label_tag }}</class>
+                {{ item }}
+
+                {%if item.errors%}
+                    <label class="form-input-error">{{ item.errors }}</label>
+                {%endif%}
+                
+            </div>
+        {% endfor %}
+
+        <button class="button" type="submit">Register</button>
+    </form>
+
+</div>
+{%endblock%}
