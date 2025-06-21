@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from Apps.users.forms import RegisterForm
-from Apps.users.models import CustomUser
+from Apps.users.models import CustomUser, CustomUserManager
 from Apps.users.services import UserService
 
 
@@ -58,6 +58,15 @@ class ModelUserTestCase(TestCase):
         self.assertIn("gender", str(cm.exception))
         self.assertIn("dietary", str(cm.exception))
 
+        user_data2.pop("email")
+        user_data2.pop("password")
+
+        user_manager = CustomUserManager()
+
+        with self.assertRaises(Exception):
+            user_manager.create_user(email=None, password=None, **user_data2)
+
+            user = user_manager.create_superuser(email="a@a.com", password="", **user_data2)
 
 class ServicesUserTestCase(TestCase):
     """
