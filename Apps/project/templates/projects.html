@@ -14,7 +14,7 @@
     <br>
     {% for project in projects%}
         <div class="list-item" id="project {{project.id}}">
-            <a class="list-item-text" href="{{request.path}}{{project.id}}/">  {{project.name}} <a class="list-item-text-little">  {{project.description}} ({{project.valoration}})</a></a></a>
+            <a class="list-item-text" href="{{request.path}}{{project.id}}/">{{project.name}} <a class="list-item-text-little">&nbsp;{{project.description}} ({{project.valoration}})</a></a></a>
         </div>
     {% endfor %}
 </div>

@@ -114,6 +114,16 @@ class WarehouseService():
             ).exclude(id=luggage.id).exists():
                 return None
 
+            if form.cleaned_data['image'] is not None:
+                if form.cleaned_data['image'] == False:
+                    luggage.image = None
+
+                else:
+                    luggage.image = form.cleaned_data['image']
+
+            else:
+                luggage.image = luggage.image
+
             if luggage.row_position > warehouse.rows or luggage.column_position > warehouse.columns:
                 return None
 

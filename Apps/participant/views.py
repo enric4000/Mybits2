@@ -122,12 +122,13 @@ class ParticipantCRUDView(View):
         form = ParticipantService.get_request_form(participant.type.lower(), request)
 
         if form.is_valid():
-            ParticipantService.update_participant(
+            participant = ParticipantService.update_participant(
                 participant,
                 form,
                 event,
-                request.user,
-            )
+                request.user
+                )
+            form = ParticipantService.get_participant_form(participant)
             return render(
                 request,
                 "participantEdit.html",
@@ -229,7 +230,7 @@ class ParticipantApplicationView(View):
             return HttpResponse(status=404)
 
         if request.user.is_authenticated is False:
-            return redirect("/user/login?next=" + request.path)
+            return redirect("/user/login/?next=" + request.path)
 
         if ParticipantService.is_email_in_admin_domain(event, request.user):
             form = ParticipantService.get_request_form("admin", request)

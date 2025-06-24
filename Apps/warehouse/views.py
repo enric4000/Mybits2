@@ -341,7 +341,17 @@ class WarehouseLuggageCRUDView(View):
         form = LuggageForm(request.POST, request.FILES, instance=luggage)
 
         if form.is_valid():
-            WarehouseService.update_luggage(form, luggage, warehouse)
+            luggage = WarehouseService.update_luggage(form, luggage, warehouse)
+            if luggage is None:
+                form.add_error(None, "That position is already occupied or is out of limits.")
+                return render(
+                    request,
+                    "luggageEdit.html",
+                    {"form": form, "postionError": "That position is already occupied or is out of limits."},
+                    status=400,
+                )
+
+            form = LuggageForm(instance=luggage)
             return render(
                 request,
                 "luggageEdit.html",

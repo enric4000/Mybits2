@@ -6,7 +6,7 @@
 <div class="container-panel">
     <h1 class="container-panel-header">Application</h1>
     <br>
-    <form action="" method="post" class="form" id="registerForm">
+    <form action="" method="post" class="form" enctype="multipart/form-data" id="registerForm">
         {% if form.errors %}
             <div>
                 {% for error in form.non_field_errors %}

@@ -5,6 +5,8 @@
 {% block content %}
 <div class="container-panel">
     <h1 class="container-panel-header">Hardware</h1>
+    <a class="button-green" href="{{ request.path }}create/">Add hardware</a>
+    <br>
     <br>
     <form action="" method="get" class="form" id="updateForm">
         <class class="from-label">Enter a name or abbreviation to search for</class>
@@ -14,7 +16,7 @@
     <br>
     {% for item in hardware_items%}
         <div class="list-item" id="item {{item.id}}">
-            <a class="list-item-text" href="{{request.path}}{{item.id}}/">{{item.name}} <a class="list-item-text-little">{{item.description}} ({{item.quantity_available}})</a></a></a>
+            <a class="list-item-text" href="{{request.path}}{{item.id}}/">{{item.name}} <a class="list-item-text-little">&nbsp;{{item.description}} (remaining:{{item.quantity_available}})</a></a></a>
         </div>
     {% endfor %}
 </div>

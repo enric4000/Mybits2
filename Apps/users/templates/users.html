@@ -12,9 +12,11 @@
         <button class="button" type="submit">Search</button>
     </form>
     {% for user in users%}
-        <div class="list-item" id="user {{user.id}}">
-            <a class="list-item-text" href="/user/{{user.id}}/profile">{{user.first_name}} {{user.last_name}} <a class="list-item-text-little">({{user.pronoun}})</a></a>
-        </div>
+        {% if user.first_name %}
+            <div class="list-item" id="user {{user.id}}">
+                <a class="list-item-text" href="/user/{{user.id}}/profile/">{{user.first_name}} {{user.last_name}} <a class="list-item-text-little">&nbsp;({{user.pronoun}})</a></a>
+            </div>
+        {% endif %}
     {% endfor %}
 </div>
 {% endblock %}

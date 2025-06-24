@@ -5,18 +5,16 @@
 {% block content %}
 <div class="container-panel">
     <h1 class="container-panel-header">Events</h1>
+    <div><a class="button-green" href="/event/create/">Create one!</a></div>
     <br>
     <form action="" method="get" class="form" id="updateForm">
         <class class="from-label">Enter a name or appName to search for</class>
         <input class="form-input" type="text" id="search" name="search" placeholder="Example: HackUPC myHackUPC" />
         <button class="button" type="submit">Search</button>
     </form>
-    <br>
-    <div><a class="button-green" href="/event/create/">Create one!</a></div>
-    <br>
     {% for event in events%}
         <div class="list-item" id="event {{event.id}}">
-            <a class="list-item-text" href="/event/{{event.id}}/">{{event.name}} <a class="list-item-text-little">{{event.description}}</a></a>
+            <a class="list-item-text" href="/event/{{event.id}}/">{{event.name}} <a class="list-item-text-little">&nbsp;{{event.description}}</a></a>
                 {% if event.end_date > today %}
                     <div style="margin-left: auto;"><a class="button" href="/event/{{event.id}}/participant/apply/">Apply now!</a></div>
                 {% endif %}
