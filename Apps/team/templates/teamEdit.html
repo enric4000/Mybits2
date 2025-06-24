@@ -67,7 +67,7 @@
     .then(response => {
         if (response.status === 204) {
         alert('Deleted successfully');
-        window.location.href = '{{ request.path}}';
+        window.location.href = '{{ request.path|slice:":-37" }}';
         } else {
         alert('Delete failed');
         }

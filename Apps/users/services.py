@@ -1,5 +1,7 @@
 from django.forms import ValidationError
 from django.db.models import Q
+
+from Apps.participant.services import ParticipantService
 from .models import CustomUser
 
 
@@ -29,6 +31,8 @@ class UserService:
         """
         Delete an existing user using the provided form data.
         """
+        ParticipantService.delete_user_from_participant(user)
+
         user.delete()
         return True
 

@@ -155,7 +155,7 @@ class HardwareItemCRUDView(View):
         if not ParticipantService.is_user_admin(event, request.user):
             return HttpResponse(status=403)
 
-        form = HardwareItemForm(request.POST, request.FILES,)
+        form = HardwareItemForm(request.POST, request.FILES)
 
         if form.is_valid():
             updated_hardware_item = HardwareItemService.update_hardware_item(

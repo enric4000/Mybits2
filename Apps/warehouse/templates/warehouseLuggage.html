@@ -1,10 +1,14 @@
 {% extends 'home.html' %}
 
-{% block subtitle %} Warehouses page{%endblock%}
+{% block subtitle %} Luggage page{%endblock%}
 
 {% block content %}
 <div class="container-panel">
-    <h1 class="container-panel-header">Warehouses</h1>
+    <h1 class="container-panel-header">Luggage</h1>
+    {% if 'participant' in request.path %}
+        <a class="button-green" href="{{ request.path }}create/">Add luggage</a>
+        <br>
+    {% endif %}
     <br>
     <form action="" method="get" class="form" id="updateForm">
         <class class="from-label">Enter a name to search for</class>
@@ -14,7 +18,7 @@
     <br>
     {% for luggageItem in luggage%}
         <div class="list-item" id="luggageItem {{luggageItem.id}}">
-            <a class="list-item-text" href="/event/{{event_id}}/warehouse/{{warehouse_id}}/luggage/{{luggageItem.id}}/">{{luggageItem.name}} <a class="list-item-text-little">({{luggageItem.description}}[R:{{luggageItem.row_position}}][C:{{luggageItem.column_position}}])</a></a>
+            <a class="list-item-text" href="/event/{{event_id}}/warehouse/{{warehouse_id}}/luggage/{{luggageItem.id}}/">{{luggageItem.name}} <a class="list-item-text-little">&nbsp;{{luggageItem.description}} [R:{{luggageItem.row_position}}][C:{{luggageItem.column_position}}]</a></a>
         </div>
     {% endfor %}
 </div>

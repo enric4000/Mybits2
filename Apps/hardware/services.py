@@ -68,6 +68,17 @@ class HardwareItemService:
         """
         for key, value in form.cleaned_data.items():
             setattr(hardware_item, key, value)
+
+        if form.cleaned_data['image'] is not None:
+            if form.cleaned_data['image'] == False:
+                hardware_item.image = None
+
+            else:
+                hardware_item.image = form.cleaned_data['image']
+
+        else:
+            hardware_item.image = hardware_item.image
+
         hardware_item.save()
         return hardware_item
 

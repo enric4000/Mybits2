@@ -36,6 +36,19 @@ class ParticipantService:
         """
         for key, value in form.cleaned_data.items():
             setattr(participant, key, value)
+
+        if participant is Hacker or participant is Mentor:
+
+            if form.cleaned_data['cv'] is not None:
+                if form.cleaned_data['cv'] == False:
+                    participant.cv = None
+
+                else:
+                    participant.cv = form.cleaned_data['cv']
+
+            else:
+                    participant.cv = participant.cv
+
         participant.event = event
         participant.user = user
         participant.type = form.type.value
@@ -235,22 +248,23 @@ class ParticipantService:
         form = None
 
         if participant_type == "hacker":
-            form = HackerForm(request.POST)
+            form = HackerForm(request.POST, request.FILES)
             form.type = ParticipantTypeEnum.HACKER
 
         elif participant_type == "mentor":
-            form = MentorForm(request.POST)
+            form = MentorForm(request.POST, request.FILES)
+            form.type = ParticipantTypeEnum.MENTOR
 
         elif participant_type == "volunteer":
-            form = VolunteerForm(request.POST)
+            form = VolunteerForm(request.POST, request.FILES)
             form.type = ParticipantTypeEnum.VOLUNTEER
 
         elif participant_type == "sponsor":
-            form = SponsorForm(request.POST)
+            form = SponsorForm(request.POST, request.FILES)
             form.type = ParticipantTypeEnum.SPONSOR
 
         elif participant_type == "admin":
-            form = AdminForm(request.POST)
+            form = AdminForm(request.POST, request.FILES)
             form.type = ParticipantTypeEnum.ADMIN
 
         return form
@@ -390,3 +404,30 @@ class ParticipantService:
             return participant.user.dietary_other
 
         return participant.user.dietary
+
+    @staticmethod
+    def delete_user_from_participant(user):
+        """
+        This method deletes all participants user associated with a user.
+        """
+        for hacker in Hacker.objects.filter(user=user):
+            hacker.user = None
+            hacker.save()
+
+        for mentor in Mentor.objects.filter(user=user):
+            mentor.user = None
+            mentor.save()
+        
+        for volunteer in Volunteer.objects.filter(user=user):
+            volunteer.user = None
+            volunteer.save()
+        
+        for sponsor in Sponsor.objects.filter(user=user):
+            sponsor.user = None
+            sponsor.save()
+
+        for admin in Admin.objects.filter(user=user):
+            admin.user = None
+            admin.save()
+
+        return True

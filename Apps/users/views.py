@@ -39,7 +39,7 @@ class ProfileView(View):
         if request.user.is_authenticated:
             user = request.user
         else:
-            return redirect("/user/login?next=/user/profile")
+            return redirect("/user/login/?next=/user/profile/")
 
         form = RegisterForm(instance=user)
         return render(request, self.template_name, {"form": form}, status=200)
@@ -47,7 +47,7 @@ class ProfileView(View):
     def post(self, request, *args, **kwargs):
         form = RegisterForm(request.POST, instance=request.user)
         if not request.user.is_authenticated:
-            return redirect("/user/login?next=/user/profile", status=401)
+            return redirect("/user/login/?next=/user/profile/", status=401)
         if form.is_valid():
             user = UserService.update_user(form, request.user)
             login(request, user)
@@ -62,7 +62,7 @@ class ProfileView(View):
             UserService.delete_user(user)
             return HttpResponse(status=204)
         else:
-            return redirect("/user/login?next=/user/profile")
+            return redirect("/user/login/?next=/user/profile/")
 
 
 class UserProfileView(View):
