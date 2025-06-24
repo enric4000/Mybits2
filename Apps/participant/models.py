@@ -38,7 +38,7 @@ class Participant(models.Model):
         "event.Event", on_delete=models.CASCADE, blank=False, null=False
     )
     user = models.ForeignKey(
-        "users.CustomUser", on_delete=models.CASCADE, blank=False, null=False
+        "users.CustomUser", on_delete=models.CASCADE, blank=False, null=True
     )
 
     def clean(self):

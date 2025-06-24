@@ -5,7 +5,6 @@
 {% block content %}
 <div class="container-panel">
     <h1 class="container-panel-header">Activitites</h1>
-    <br>
     <div><a class="button-green" href="{{ request.path }}create/">Create one!</a></div>
     <br>
     <form action="" method="get" class="form" id="updateForm">
@@ -16,7 +15,7 @@
     <br>
     {% for activity in activities %}
         <div class="list-item" id="activity {{activity.id}}">
-            <a class="list-item-text" href="{{request.path}}{{activity.id}}/">{{activity.name}}</a>
+            <a class="list-item-text" href="{{request.path}}{{activity.id}}/">{{activity.name}}<a class="list-item-text-little">&nbsp;({{activity.start_date}} - {{activity.end_date}})</a></a>
         </div>
     {% endfor %}
 </div>

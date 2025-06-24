@@ -6,7 +6,10 @@
 <div class="container-panel">
     <h1 class="container-panel-header">Hardware edit</h1>
     <br>
-    <form action="" method="post" class="form" id="editForm">
+    {% if form.instance.image %}
+        <img src="{{ form.instance.image.url }}" alt="LuggageImage" width="200">
+    {% endif %}
+    <form action="" method="post" class="form" enctype="multipart/form-data" id="editForm">
         {% if form.errors %}
             <div>
                 {% for error in form.non_field_errors %}
